@@ -1,0 +1,62 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: intellicredit-core
+  datasource:
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/intellicredit?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC}
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:1156}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    show-sql: false
+  sql:
+    init:
+      mode: always
+  security:
+    # Disable default security for MVP demo
+    user:
+      name: admin
+      password: vivriti2025
+
+# JWT Configuration
+jwt:
+  secret: VivritiIntelliCreditSecretKey2025AES256BitKeyForProduction
+  expiration: 86400000
+
+# Service URLs
+services:
+  python-worker:
+    url: http://localhost:8001
+  bff-node:
+    url: http://localhost:3001
+
+# CORS Configuration
+cors:
+  allowed-origins: http://localhost:3000,http://localhost:3001
+
+# Actuator / Prometheus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+
+# Logging
+logging:
+  level:
+    com.vivriti: DEBUG
+    org.springframework.security: WARN
